@@ -1,0 +1,74 @@
+---
+title: "Assignment #4 - Functions"
+author: "Alecia Dezzani"
+date: "May 14, 2026"
+format: html
+editor: visual
+theme: minty
+---
+
+### Define the Contract
+
+**Inputs:**
+
+- n = the total number (count) of organisms of a particular species
+
+- N = the total number (count) of individuals of all species
+
+**Function:**
+
+1 - $\sum$ (n/N)^2^ = D
+
+**Output:**
+
+D = Simpson’s Index of Biodiversity score
+
+### Generate Data
+```{r}
+#| message: false
+#load packages
+library(tidyverse)
+library(here)
+```
+
+```{r}
+set.seed(262)
+ab_spp <- c("pink", "red", "green", "pinto", "black")
+ab_count <- sample(1:50, size = 5, replace = F,  prob = dnorm(1:50, mean = 25, sd = 15))
+ab_data <- data.frame(ab_spp, ab_count)
+print(ab_data)
+```
+
+### Build the Function
+
+```{r}
+#' Abalone Species Biodiversity
+#'
+#' This function determines the Simpson's Diversity Index score based on abalone survey data at a marine protected area, Casino Point Dive Park, on Catalina Island. 
+#' @param n the total number of organisms of a particular species (count)
+#' @param N the total number of individuals of all species (count) 
+#' @return Diversity Index Score (no unit)
+#'
+# function definition
+ab_diversity = function(n, N) {
+  # here's were I calculate power
+  ab_result = ((n/N)^2)
+  return(ab_result)
+}
+```
+
+### Test Function with Data
+```{r}
+N = sum(ab_data$ab_count) # = 133
+print(ab_data)
+```
+
+```{r}
+score = 1 - (ab_diversity(31,133) + 
+               ab_diversity(43,133) + 
+               ab_diversity(18,133) + 
+               ab_diversity(14, 133) +
+               ab_diversity(27, 133))
+```
+
+Diversity Index Score: 0.77
